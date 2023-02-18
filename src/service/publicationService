@@ -1,0 +1,24 @@
+const Publication = require('../models/Publication');
+const { SECRET } = require('../constants');
+
+exports.createOne = (data, authorId) => Publication.create({ ...data, author: authorId });
+
+exports.getAll = () => Publication.find({}).lean();
+
+exports.getOne = (picId) => Publication.findById(picId);
+
+exports.editOne = (picId, data) => Publication.findByIdAndUpdate(picId, data, { runValidators: true });
+
+exports.deleteOne = (picId) => Publication.findByIdAndDelete({ _id: picId });
+
+exports.share = async (picId, userId) => {
+    const pic = await this.getOne(picId);
+
+    const isShared = pic.shares.includes(userId);
+
+    if (!isShared) {
+        pic.shares.push(userId);
+        pic.save()
+    };
+
+}

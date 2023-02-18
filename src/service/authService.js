@@ -6,6 +6,7 @@ const { SECRET } = require('../constants');
 
 
 exports.getUserByUsername = (username) => User.findOne({ username });
+exports.getUserById = (userId) => User.findOne({ userId });
 
 exports.register = async (username, password, address) => {
 

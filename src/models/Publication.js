@@ -3,36 +3,39 @@ const mognoose = require('mongoose');
 
 const publicationSchema = new mognoose.Schema({
     title: {
-        type: [String, 'Name is required!'],
+        type: String,
         minLength: [6, 'Name must be at least 6 characters!'],
-        required: true
+        required: [true, 'Name is required!']
     },
     technique: {
-        type: [String, 'Picture is required!'],
-        required: true,
+        type: String,
+        required: [true, 'Picture is required!'],
         minLength: [6, 'Name must be at least 6 characters!'],
     },
-    certifOfAuthenticity: {
+    certificate: {
         type: String,
         required: true,
-        enum: ['Yes', 'No'],
-
+        enum: {
+            values: ['Yes', 'No'],
+            message: 'You have to type: Yes or No'
+        }
     },
     picture: {
-        type: [String, 'Picture is required!'],
+        type: String,
         match: [/^(http(s)?:\/\/)/, 'Invalid Url'],
-        required: true
+        required: [true, 'Picture is required!']
+    },
+    author: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
     },
     shares: [{
         type: mongoose.Types.ObjectId,
         ref: 'User'
-    }],
-    author: {
-        type: mongoose.Types.ObjectId,
-        ref: 'User'
-    }
+    }]
+
 });
 
-const Publication = mognoose.model('Crypto', publicationSchema);
+const Publication = mognoose.model('Publication', publicationSchema);
 
-module.exports = Publication
+module.exports = Publication;
